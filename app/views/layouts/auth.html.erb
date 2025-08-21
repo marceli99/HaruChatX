@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Logowanie</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag "auth", "data-turbo-track": "reload" %>
+</head>
+<body class="auth-body">
+<main class="auth-main" role="main">
+  <section class="auth-card" role="region" aria-label="Panel logowania">
+    <header class="auth-header">
+      <h1 class="auth-title">Zaloguj się</h1>
+      <p class="auth-subtitle">Dostęp tylko dla uprawnionych</p>
+    </header>
+
+    <div class="flash-wrap" aria-live="polite" aria-atomic="true">
+      <% if flash[:alert].present? %>
+        <div class="flash flash--alert" role="alert"><%= flash[:alert] %></div>
+      <% end %>
+      <% if flash[:notice].present? %>
+        <div class="flash flash--notice" role="status"><%= flash[:notice] %></div>
+      <% end %>
+    </div>
+
+    <%= yield %>
+  </section>
+</main>
+</body>
+</html>

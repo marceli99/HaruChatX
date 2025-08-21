@@ -1,0 +1,227 @@
+:root {
+    --bg: #0b0d10;
+    --surface-1: #111317;
+    --surface-2: #161a20;
+    --fg: #e6e7e9;
+    --fg-muted: #b7beca;
+    --border: #282d36;
+    --accent: #8ab4f8;
+    --radius: 12px;
+    --space-1: .5rem;
+    --space-2: .75rem;
+    --space-3: 1rem;
+    --space-4: 1.25rem;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box
+}
+
+html, body {
+    height: 100%
+}
+
+body {
+    margin: 0;
+    display: flex;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--fg);
+    font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow: hidden;
+}
+
+a {
+    color: inherit
+}
+
+aside {
+    flex: 0 0 240px;
+    background: var(--surface-1);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.logo {
+    padding: var(--space-2);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--fg-muted);
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+    letter-spacing: .5px;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: var(--space-2);
+    display: flex;
+    flex-direction: column;
+    gap: .15rem;
+}
+
+nav li a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .35rem .5rem;
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: var(--fg-muted);
+    font-size: 0.85rem;
+    border: 1px solid transparent;
+    background: transparent;
+    transition: background 0.2s, color 0.2s;
+}
+
+nav li a .delete {
+    background: none;
+    border: none;
+    color: #e74c3c;
+    font-size: 0.8rem;
+    font-weight: bold;
+    cursor: pointer;
+    opacity: 0;
+    margin-left: 0.5rem;
+    transition: opacity 0.2s;
+}
+
+nav li a:hover {
+    background: var(--surface-2);
+    color: var(--fg);
+}
+
+nav li a:hover .delete {
+    opacity: 1;
+}
+
+nav li a[aria-current="page"] {
+    color: var(--fg);
+    background: var(--surface-2);
+    border-color: var(--border);
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg);
+    height: 100vh;
+}
+
+section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-3) var(--space-4);
+    overflow-y: auto;
+}
+
+form {
+    display: flex;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    border-top: 1px solid var(--border);
+    background: var(--surface-1);
+    width: 100%;
+    flex-shrink: 0;
+}
+
+form select {
+    background: var(--surface-2);
+    color: var(--fg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: .5rem .75rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    outline: none;
+    flex: 0 0 100px;
+    }
+
+form select:focus-visible {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+article {
+    min-width: 800px;
+    max-width: 800px;
+    text-align: left;
+    justify-content: right;
+    align-content: right;
+    border-radius: var(--radius);
+    padding: var(--space-2);
+    margin-block: var(--space-2)
+}
+
+input[type="text"] {
+    flex: 1;
+    background: var(--surface-2);
+    color: var(--fg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: .65rem .9rem;
+    outline: none;
+    caret-color: var(--accent);
+}
+
+input::placeholder {
+    color: var(--fg-muted)
+}
+
+input:focus-visible {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+button {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--fg);
+    padding: .65rem .9rem;
+    border-radius: var(--radius);
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+button:hover {
+    background: var(--surface-1);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.user-message {
+    display: flex;
+    align-items: center;
+}
+
+.user-message p {
+    margin: 0;
+}
+
+.user-message::after {
+    content: "❮";
+    color: var(--fg-muted);
+    font-weight: bold;
+    padding-left: 0.5rem;
+}
+
+    @media (prefers-reduced-motion: reduce) {
+        * {
+            transition: none !important;
+            animation: none !important;
+            scroll-behavior: auto !important
+        }
+
+        button:active {
+            transform: none
+        }
+    }

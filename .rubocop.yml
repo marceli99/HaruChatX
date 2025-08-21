@@ -1,0 +1,28 @@
+plugins:
+  - rubocop-rails
+  - rubocop-performance
+  - rubocop-rspec
+
+AllCops:
+  TargetRubyVersion: 3.4
+  NewCops: enable
+  Exclude:
+    - 'db/schema.rb'
+    - 'bin/**/*'
+    - 'node_modules/**/*'
+    - 'vendor/**/*'
+    - 'db/migrate/**/*'
+
+Rails:
+  Enabled: true
+
+Performance:
+  Enabled: true
+
+RSpec:
+  Enabled: true
+  Include:
+    - 'spec/**/*'
+
+Style/Documentation:
+  Enabled: false

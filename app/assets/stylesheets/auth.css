@@ -1,0 +1,186 @@
+:root {
+    --bg: #0b0b0b;
+    --surface: #111111;
+    --border: #232323;
+    --text: #e6e6e6;
+    --muted: #a8a8a8;
+    --primary: #3abff8;
+    --danger: #ef4444;
+    --success: #22c55e;
+
+    --radius: 12px;
+    --space-1: 6px;
+    --space-2: 10px;
+    --space-3: 14px;
+    --space-4: 18px;
+    --space-5: 24px;
+
+    --field: #0f0f0f;
+    --field-brd: #2a2a2a;
+
+    --focus-outline: 2px;
+    --focus-color: #7dd3fc;
+}
+
+/* 2) Reset/normalizacja minimalistyczna */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html:focus-within { scroll-behavior: smooth; }
+
+html, body { height: 100%; }
+
+body {
+    margin: 0;
+    color: var(--text);
+    background-color: var(--bg);
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+}
+
+img, svg { display: block; max-width: 100%; }
+button, input, select, textarea { font: inherit; color: inherit; }
+
+/* 3) Ruch/animacje – preferencje użytkownika */
+@media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+/* 4) Layout przez Flexbox (centrowanie zgodnie z MDN) */
+.auth-body {
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;     /* osi poprzecznej */
+    justify-content: center; /* osi głównej */
+    padding: var(--space-5);
+    background-color: var(--bg);
+}
+
+.auth-main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 420px;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+/* 5) Nagłówek */
+.auth-header { display: flex; flex-direction: column; gap: var(--space-1); }
+.auth-title {
+    margin: 0;
+    font-size: 1.25rem; /* 20px – czytelny, nieprzesadzony */
+    font-weight: 600;
+}
+.auth-subtitle {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+/* 6) Flash messages – proste, płaskie, czytelne */
+.flash-wrap { display: flex; flex-direction: column; gap: var(--space-2); }
+.flash {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-3);
+    background-color: #0f0f0f;
+}
+.flash--alert { border-color: #3a1b1b; }
+.flash--notice { border-color: #1b3a2a; }
+
+/* 7) Formularz – płaski, czysty */
+.auth-form { display: flex; flex-direction: column; gap: var(--space-4); }
+
+.field { display: flex; flex-direction: column; gap: var(--space-2); }
+
+.label {
+    font-size: 0.95rem;
+    color: var(--muted);
+}
+
+.input {
+    appearance: none;
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    border: 1px solid var(--field-brd);
+    background-color: var(--field);
+    color: var(--text);
+    outline: none; /* kontrolujemy focus przez :focus-visible */
+}
+.input::placeholder { color: #737373; }
+
+/* Focus wg MDN/W3C – outline, nie box-shadow; wyraźny i dostępny */
+.input:focus-visible,
+.button:focus-visible {
+    outline: var(--focus-outline) solid var(--focus-color);
+    outline-offset: 2px;
+}
+
+/* 8) Przycisk – zero cieni/gradientów, wyraźny kontrast */
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    background-color: var(--primary);
+    color: #0a0a0a;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+}
+.button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* 9) Stopka */
+.auth-footer {
+    margin-top: var(--space-1);
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+/* Chrome / Safari / Edge (WebKit/Blink) */
+.auth-card .input:-webkit-autofill,
+.auth-card .input:-webkit-autofill:hover,
+.auth-card .input:-webkit-autofill:focus,
+.auth-card .input:-webkit-autofill:active {
+    /* wypełnij tło naszym kolorem pola */
+    -webkit-box-shadow: 0 0 0 1000px var(--field) inset !important;
+    box-shadow: 0 0 0 1000px var(--field) inset !important;
+
+    /* kolor tekstu i karetki zgodny z motywem */
+    -webkit-text-fill-color: var(--text) !important;
+    caret-color: var(--text);
+
+    /* zachowaj naszą ramkę */
+    border: 1px solid var(--field-brd);
+}
+
+/* Firefox (Gecko) */
+.auth-card .input:-moz-autofill {
+    box-shadow: 0 0 0 1000px var(--field) inset;
+    -moz-text-fill-color: var(--text);
+    caret-color: var(--text);
+    border: 1px solid var(--field-brd);
+}
+
+/* Podpowiedz UA, że UI jest ciemne (form controls, autofill, daty itd.) */
+.auth-body, .auth-card, .auth-form, .input {
+    color-scheme: dark;
+}
