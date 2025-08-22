@@ -19,6 +19,41 @@
 </head>
 
 <body>
+  <aside>
+  <header class="logo">
+    <h1>HaruChatX</h1>
+  </header>
+
+<nav aria-label="Chats list">
+  <ul>
+    <li>
+      <%= button_to "➕ Start new chat",
+                    conversations_path,
+                    method: :post,
+                    class: "new-chat-btn" %>
+    </li>
+
+    <% Current.user.conversations.order(created_at: :desc).each do |conversation| %>
+      <% active = (defined?(@conversation) && @conversation&.id == conversation.id) %>
+      <li id="<%= dom_id(conversation, :row) %>" data-conversation-id="<%= conversation.id %>">
+        <%= link_to conversation_path(conversation),
+                    aria: { current: (active ? "page" : nil) } do %>
+          <span class="chat-title"><%= conversation.title.presence || "Untitled chat" %></span>
+          <span class="delete"
+                data-delete-url="<%= conversation_path(conversation) %>"
+                aria-label="Usuń konwersację"
+                title="Usuń"
+                role="button"
+                tabindex="0">×</span>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</nav>
+
+
+
+</aside>
 <%= yield %>
 </body>
 </html>

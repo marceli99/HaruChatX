@@ -38,7 +38,7 @@ a {
 }
 
 aside {
-    flex: 0 0 240px;
+    flex: 0 0 300px;
     background: var(--surface-1);
     border-right: 1px solid var(--border);
     display: flex;
@@ -54,6 +54,24 @@ aside {
     border-bottom: 1px solid var(--border);
     text-align: center;
     letter-spacing: .5px;
+}
+
+.new-chat-btn {
+    width: 100%;
+    text-align: center;
+    font-size: 0.85rem;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--fg);
+    padding: .5rem .75rem;
+    border-radius: var(--radius);
+    font-weight: 600;
+    cursor: pointer;
+}
+.new-chat-btn:hover {
+    background: var(--surface-1);
+    border-color: var(--accent);
+    color: var(--accent);
 }
 
 nav ul {
@@ -79,15 +97,22 @@ nav li a {
     transition: background 0.2s, color 0.2s;
 }
 
+nav li a .chat-title {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 nav li a .delete {
     background: none;
     border: none;
     color: #e74c3c;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     font-weight: bold;
     cursor: pointer;
     opacity: 0;
-    margin-left: 0.5rem;
+    margin-left: .5rem;
     transition: opacity 0.2s;
 }
 

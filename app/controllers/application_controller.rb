@@ -6,18 +6,14 @@ class ApplicationController < ActionController::Base
   allow_browser versions: :modern
   before_action :require_authentication
 
-  def index; end
+  def index
+    conversation = Current.user.conversations.order(created_at: :desc).first
 
-  def create
-    return if params[:message].blank?
-
-    @chat_mode = params[:chat_mode]
-    @message = params[:message]
-    @reply = OpenAiClient.new.chat(@message, @chat_mode)
-
-    respond_to do |format|
-      format.turbo_stream
-      format.html { redirect_to root_path }
+    if conversation
+      redirect_to conversation_path(conversation)
+    else
+      conversation = Current.user.conversations.create!(title: "New chat")
+      redirect_to conversation_path(conversation)
     end
   end
 end
