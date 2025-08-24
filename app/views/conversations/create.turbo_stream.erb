@@ -1,0 +1,4 @@
+<%= turbo_stream.append 'messages' do %>
+    <article class="user-message"><%= @message.present? ? @message : t('conversations.empty.no_message') %></article>
+    <article><p><%= @reply.present? ? @reply : t('conversations.empty.no_reply') %></p></article>
+<% end %>

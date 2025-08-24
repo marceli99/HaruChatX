@@ -1,0 +1,9 @@
+<%= turbo_stream.append "messages" do %>
+  <article class="user-message">
+    <%= @user_message.content %>
+  </article>
+
+  <article class="assistant-message">
+    <%= @assistant_message.content %>
+  </article>
+<% end %>
