@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title><%= content_for(:title) || "Haruchat5" %></title>
+  <title><%= content_for(:title) || t('app.title') %></title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
@@ -21,13 +21,13 @@
 <body>
   <aside>
   <header class="logo">
-    <h1>HaruChatX</h1>
+  <h1><%= t('app.name') %></h1>
   </header>
 
 <nav aria-label="Chats list">
   <ul>
     <li>
-      <%= button_to "➕ Start new chat",
+  <%= button_to t('navigation.start_new_chat'),
                     conversations_path,
                     method: :post,
                     class: "new-chat-btn" %>
@@ -38,11 +38,11 @@
       <li id="<%= dom_id(conversation, :row) %>" data-conversation-id="<%= conversation.id %>">
         <%= link_to conversation_path(conversation),
                     aria: { current: (active ? "page" : nil) } do %>
-          <span class="chat-title"><%= conversation.title.presence || "Untitled chat" %></span>
+      <span class="chat-title"><%= conversation.title.presence || t('navigation.untitled_chat') %></span>
           <span class="delete"
                 data-delete-url="<%= conversation_path(conversation) %>"
-                aria-label="Usuń konwersację"
-                title="Usuń"
+        aria-label="<%= t('navigation.delete_conversation.label') %>"
+        title="<%= t('navigation.delete_conversation.title') %>"
                 role="button"
                 tabindex="0">×</span>
         <% end %>

@@ -28,4 +28,73 @@
 #       enabled: "ON"
 
 en:
-  hello: "Hello world"
+  app:
+    name: "HaruChatX"
+    title: "Haruchat5"
+  navigation:
+    start_new_chat: "➕ Start new chat"
+    untitled_chat: "Untitled chat"
+    delete_conversation:
+      label: "Delete conversation"
+      title: "Delete"
+  auth:
+    page_title: "Sign in"
+    panel_aria: "Sign in panel"
+    heading: "Sign in"
+    subtitle: "Access restricted to authorized users"
+    email: "Email address"
+    email_placeholder: "you@example.com"
+    password: "Password"
+    password_placeholder: "••••••••"
+    submit: "Sign in"
+  passwords:
+    new:
+      heading: "Forgot your password?"
+      email_placeholder: "Enter your email address"
+      submit: "Email reset instructions"
+    edit:
+      heading: "Update your password"
+      password_placeholder: "Enter new password"
+      password_confirmation_placeholder: "Repeat new password"
+      submit: "Save"
+    mailer:
+      reset_html_intro: "You can reset your password within the next 15 minutes on"
+      reset_link_text: "this password reset page"
+      reset_text_full: "You can reset your password within the next 15 minutes on this password reset page:"
+  conversations:
+    new_title: "New chat"
+    deleted: "Conversation was successfully deleted."
+    form:
+      aria_write_message: "Write a message"
+      message_placeholder: "Write a message…"
+      chat_mode: "Chat mode"
+      preset_prompt: "Select chat mode…"
+      send: "Send"
+    presets:
+      programmer: "You are a helpful programming assistant..."
+      jokes: "You tell jokes in a casual style..."
+      stories: "You create imaginative short stories..."
+      study: "You help with learning and explaining difficult topics..."
+      research: "You search for and summarize knowledge..."
+    title_prompt: |-
+      Give a short, readable title for this conversation based on the user's message:
+
+      %{content}
+    empty:
+      no_message: "No message"
+      no_reply: "No reply"
+  flash:
+    sessions:
+      create:
+        success: "Signed in successfully"
+        failure: "Invalid email or password"
+      destroy:
+        success: "Signed out"
+    passwords:
+      create: "Password reset instructions sent (if user with that email address exists)."
+      update:
+        success: "Password has been reset."
+        mismatch: "Passwords did not match."
+        invalid_token: "Password reset link is invalid or has expired."
+    conversations:
+      destroyed: "Conversation was successfully deleted."

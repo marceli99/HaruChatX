@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Logowanie</title>
+  <title><%= t('auth.page_title') %></title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
@@ -10,10 +10,10 @@
 </head>
 <body class="auth-body">
 <main class="auth-main" role="main">
-  <section class="auth-card" role="region" aria-label="Panel logowania">
+  <section class="auth-card" role="region" aria-label="<%= t('auth.panel_aria') %>">
     <header class="auth-header">
-      <h1 class="auth-title">Zaloguj się</h1>
-      <p class="auth-subtitle">Dostęp tylko dla uprawnionych</p>
+      <h1 class="auth-title"><%= t('auth.heading') %></h1>
+      <p class="auth-subtitle"><%= t('auth.subtitle') %></p>
     </header>
 
     <div class="flash-wrap" aria-live="polite" aria-atomic="true">

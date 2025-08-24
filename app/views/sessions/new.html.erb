@@ -1,24 +1,24 @@
 <%= form_with url: session_path, class: "auth-form" do |form| %>
   <div class="field">
-    <%= form.label :email_address, "Adres e-mail", class: "label" %>
+    <%= form.label :email_address, t('auth.email'), class: "label" %>
     <%= form.email_field :email_address,
                          required: true,
                          autofocus: true,
                          autocomplete: "username",
                          value: params[:email_address],
-                         placeholder: "you@example.com",
+                         placeholder: t('auth.email_placeholder'),
                          class: "input" %>
   </div>
 
   <div class="field">
-    <%= form.label :password, "Hasło", class: "label" %>
+    <%= form.label :password, t('auth.password'), class: "label" %>
     <%= form.password_field :password,
                             required: true,
                             autocomplete: "current-password",
                             maxlength: 72,
-                            placeholder: "••••••••",
+                            placeholder: t('auth.password_placeholder'),
                             class: "input" %>
   </div>
 
-  <%= form.submit "Zaloguj", class: "button" %>
+  <%= form.submit t('auth.submit'), class: "button" %>
 <% end %>
