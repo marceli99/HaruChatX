@@ -9,11 +9,7 @@ class ApplicationController < ActionController::Base
   def index
     conversation = Current.user.conversations.order(created_at: :desc).first
 
-    if conversation
-      redirect_to conversation_path(conversation)
-    else
-      conversation = Current.user.conversations.create!(title: "New chat")
-      redirect_to conversation_path(conversation)
-    end
+    conversation ||= Current.user.conversations.create!(title: 'New chat')
+    redirect_to conversation_path(conversation)
   end
 end

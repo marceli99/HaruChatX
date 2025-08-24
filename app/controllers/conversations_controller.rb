@@ -36,6 +36,6 @@ class ConversationsController < ApplicationController
   private
 
   def conversation_params
-    params.require(:conversation).permit(:title, :system_prompt)
+    params.expect(conversation: %i[title system_prompt])
   end
 end

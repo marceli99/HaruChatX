@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Message < ApplicationRecord
   enum :role, { user: 0, assistant: 1, system: 2 }
 

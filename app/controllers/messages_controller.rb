@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MessagesController < ApplicationController
   before_action :require_authentication
 
@@ -15,7 +17,7 @@ class MessagesController < ApplicationController
       model: @chat_mode
     )
 
-    if @conversation.messages.count == 1
+    if @conversation.messages.one?
       title_prompt = I18n.t('conversations.title_prompt', content: @message_content)
       new_title = OpenAiClient.new.chat(title_prompt, 'gpt-5-nano')
       @conversation.update!(title: new_title.strip)
@@ -38,6 +40,6 @@ class MessagesController < ApplicationController
   private
 
   def message_params
-    params.require(:message).permit(:content)
+    params.expect(message: [:content])
   end
 end

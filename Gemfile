@@ -3,6 +3,7 @@
 source 'https://rubygems.org'
 
 gem 'bootsnap', require: false
+gem 'i18n'
 gem 'importmap-rails'
 gem 'jbuilder'
 gem 'kamal', require: false
@@ -18,7 +19,6 @@ gem 'stimulus-rails'
 gem 'thruster', require: false
 gem 'turbo-rails'
 gem 'tzinfo-data', platforms: %i[windows jruby]
-gem 'i18n'
 
 group :development, :test do
   gem 'brakeman', require: false
