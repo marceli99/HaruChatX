@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class MessagesController < ApplicationController
-  before_action :require_authentication
-
   def create
     @conversation = Conversation.find(params[:conversation_id])
 

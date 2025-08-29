@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class ConversationsController < ApplicationController
-  before_action :require_authentication
-
   def show
     @conversation = Conversation.find(params[:id])
     @conversation.update!(system_prompt: Conversation::PRESETS[params[:preset]]) if params[:preset].present?

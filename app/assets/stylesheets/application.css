@@ -11,6 +11,8 @@
     --space-2: .75rem;
     --space-3: 1rem;
     --space-4: 1.25rem;
+    --danger: #dc2626;
+    --danger-hover: #b91c1c;
 }
 
 *, *::before, *::after {
@@ -237,6 +239,24 @@ button:hover {
     color: var(--fg-muted);
     font-weight: bold;
     padding-left: 0.5rem;
+}
+.icon {
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+}
+
+.chat-delete {
+  color: var(--danger);
+}
+
+.chat-delete:hover {
+  color: var(--danger-hover);
+  background: rgba(220, 38, 38, 0.08);
+}
+
+.chat-delete:active {
+  transform: scale(0.96);
 }
 
     @media (prefers-reduced-motion: reduce) {

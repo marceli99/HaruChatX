@@ -35,24 +35,30 @@
 
     <% Current.user.conversations.order(created_at: :desc).each do |conversation| %>
       <% active = (defined?(@conversation) && @conversation&.id == conversation.id) %>
-      <li id="<%= dom_id(conversation, :row) %>" data-conversation-id="<%= conversation.id %>">
-        <%= link_to conversation_path(conversation),
-                    aria: { current: (active ? "page" : nil) } do %>
-      <span class="chat-title"><%= conversation.title.presence || t('navigation.untitled_chat') %></span>
-          <span class="delete"
-                data-delete-url="<%= conversation_path(conversation) %>"
-        aria-label="<%= t('navigation.delete_conversation.label') %>"
-        title="<%= t('navigation.delete_conversation.title') %>"
-                role="button"
-                tabindex="0">×</span>
-        <% end %>
-      </li>
+<li id="<%= dom_id(conversation, :row) %>"
+    data-conversation-id="<%= conversation.id %>"
+    style="display:flex; align-items:center; gap:.5rem;">
+  <%= link_to conversation_path(conversation),
+              aria: { current: (active ? 'page' : nil) },
+              style: 'flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;' do %>
+    <span class="chat-title">
+      <%= conversation.title.presence || t('navigation.untitled_chat') %>
+    </span>
+  <% end %>
+
+  <%= link_to "🗑️",
+      conversation_path(conversation),
+      data: {
+        turbo_method: :delete
+              },
+      aria: { label: t('navigation.delete_conversation.label') },
+      title: t('navigation.delete_conversation.title'),
+      style: 'text-decoration:none;' %>
+</li>
+
     <% end %>
   </ul>
 </nav>
-
-
-
 </aside>
 <%= yield %>
 </body>

@@ -23,13 +23,6 @@
                    'aria-label': t('conversations.form.aria_write_message'), autocomplete: 'off',
                    enterkeyhint: 'send', required: true %>
 
-    <%= select_tag :preset,
-     options_for_select(Conversation::PRESETS.keys.map { |key|
-        [Conversation::PRESETS[key], key]
-      }, @conversation.preset_key),
-    prompt: t('conversations.form.preset_prompt'),
-    aria: { label: t('conversations.form.chat_mode') } %>
-
   <%= f.button t('conversations.form.send'), 'aria-label': t('conversations.form.send') %>
 <% end %>
 
