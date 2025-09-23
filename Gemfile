@@ -10,7 +10,7 @@ gem 'kamal', require: false
 gem 'pg', '~> 1.1'
 gem 'propshaft'
 gem 'puma', '>= 5.0'
-gem 'rails', '~> 8.0.2', '>= 8.0.2.1'
+gem 'rails', '~> 8.0.3'
 gem 'ruby-openai'
 gem 'solid_cable'
 gem 'solid_cache'
