@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Conversation < ApplicationRecord
+  self.primary_key = :id
   has_many :messages, dependent: :destroy
   belongs_to :user
 

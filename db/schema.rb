@@ -10,11 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_22_132031) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_01_121000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+  enable_extension "pgcrypto"
 
-  create_table "conversations", force: :cascade do |t|
+  create_table "conversations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "title"
     t.text "system_prompt"
@@ -25,14 +26,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_22_132031) do
   end
 
   create_table "messages", force: :cascade do |t|
-    t.bigint "conversation_id", null: false
     t.integer "role", null: false
     t.text "content", null: false
     t.string "model", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["conversation_id", "created_at"], name: "index_messages_on_conversation_id_and_created_at"
-    t.index ["conversation_id"], name: "index_messages_on_conversation_id"
+    t.uuid "conversation_id"
   end
 
   create_table "sessions", force: :cascade do |t|
