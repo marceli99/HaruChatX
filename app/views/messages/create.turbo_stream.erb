@@ -5,5 +5,15 @@
 
   <article class="assistant-message">
     <%= @assistant_message.content %>
+    <script>
+      const dongFrame = document.querySelector('[data-controller="dong"]');
+      if (dongFrame && dongFrame.controller) {
+        dongFrame.controller.playDong();
+      } else if (dongFrame) {
+        // Fallback: Stimulus controller instance
+        const event = new CustomEvent('play-dong');
+        dongFrame.dispatchEvent(event);
+      }
+    </script>
   </article>
 <% end %>

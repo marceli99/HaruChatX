@@ -1,6 +1,6 @@
 <main>
   <section>
-    <turbo-frame id="messages">
+  <turbo-frame id="messages" data-controller="dong">
       <% @messages.each do |message| %>
         <article class="<%= message.role %>-message">
           <p><%= message.content %></p>
