@@ -19,46 +19,38 @@
 </head>
 
 <body>
-  <aside>
-  <header class="logo">
-  <h1><%= t('app.name') %></h1>
-  </header>
-
-<nav aria-label="Chats list">
-  <ul>
-    <li>
-  <%= button_to t('navigation.start_new_chat'),
+<aside class="sidebar">
+  <header class="sidebar__header">
+    <h1 class="sidebar__title"><%= t('app.name') %></h1>
+    <div class="sidebar__actions">
+      <%= button_to t('navigation.start_new_chat'),
                     conversations_path,
                     method: :post,
-                    class: "new-chat-btn" %>
-    </li>
+                    class: "btn btn--primary sidebar__new" %>
+    </div>
+  </header>
 
-    <% Current.user.conversations.order(created_at: :desc).each do |conversation| %>
-      <% active = (defined?(@conversation) && @conversation&.id == conversation.id) %>
-<li id="<%= dom_id(conversation, :row) %>"
-    data-conversation-id="<%= conversation.id %>"
-    style="display:flex; align-items:center; gap:.5rem;">
-  <%= link_to conversation_path(conversation),
-              aria: { current: (active ? 'page' : nil) },
-              style: 'flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;' do %>
-    <span class="chat-title">
-      <%= conversation.title.presence || t('navigation.untitled_chat') %>
-    </span>
-  <% end %>
+  <nav class="sidebar__nav" aria-label="<%= t('navigation.chats_list', default: 'Chats list') %>">
+    <ul class="chat-list">
+      <% Current.user.conversations.order(created_at: :desc).each do |conversation| %>
+        <% active = (defined?(@conversation) && @conversation&.id == conversation.id) %>
+        <li class="chat-item" id="<%= dom_id(conversation, :row) %>" data-conversation-id="<%= conversation.id %>">
+          <%= link_to conversation_path(conversation),
+                      class: "chat-link#{' is-active' if active}",
+                      aria: { current: (active ? 'page' : nil) } do %>
+            <span class="chat-title"><%= conversation.title.presence || t('navigation.untitled_chat') %></span>
+          <% end %>
 
-  <%= link_to "🗑️",
-      conversation_path(conversation),
-      data: {
-        turbo_method: :delete
-              },
-      aria: { label: t('navigation.delete_conversation.label') },
-      title: t('navigation.delete_conversation.title'),
-      style: 'text-decoration:none;' %>
-</li>
-
-    <% end %>
-  </ul>
-</nav>
+          <%= link_to "🗑️",
+                      conversation_path(conversation),
+                      class: "chat-delete",
+                      data: { turbo_method: :delete },
+                      aria: { label: t('navigation.delete_conversation.label') },
+                      title: t('navigation.delete_conversation.title') %>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
 </aside>
 <%= yield %>
 </body>
