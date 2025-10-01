@@ -242,3 +242,86 @@ button:focus-visible { outline: 2px solid #6a6a6a; outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
 }
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.9em;
+  background: #0f0f12;
+  color: #e7e7ea;
+  border: 1px solid #232327;
+  padding: .15em .45em;
+  border-radius: 6px;
+  vertical-align: baseline;
+  font-variant-ligatures: none;
+  -webkit-font-smoothing: auto;
+  overflow-wrap: anywhere; /* nie rozjeżdża layoutu przy długich słowach */
+}
+
+/* Blok <pre> — duże fragmenty kodu z zachowaniem formatowania */
+pre {
+  margin: .9rem 0;
+  background: #0f0f12;
+  border: 1px solid #232327;
+  border-radius: 16px;
+  padding: 1rem 1.1rem;
+  overflow: auto;              /* poziomy scroll dla długich linii */
+  line-height: 1.55;
+  tab-size: 2;                 /* czytelne wcięcia */
+  -moz-tab-size: 2;
+  -webkit-font-smoothing: auto;
+}
+
+/* Wyrównanie stylów dla <pre><code> */
+pre > code {
+  display: block;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  color: #e7e7ea;
+  font-size: .95rem;
+  white-space: pre;            /* nie łamie linii w obrębie kodu */
+}
+
+/* Bloki kodu w bąbelkach czatu — dopasowanie do szerokości */
+.user-message pre,
+.assistant-message pre,
+.system-message pre {
+  max-width: 100%;
+}
+
+/* Selektor zaznaczenia — milszy highlight podczas kopiowania */
+pre::selection,
+code::selection,
+pre > code::selection {
+  background: #2a2a31;
+  color: #ffffff;
+}
+
+/* Estetyczny scrollbar tylko dla bloków kodu (WebKit) */
+pre::-webkit-scrollbar { height: 10px; }
+pre::-webkit-scrollbar-track { background: #0c0c0e; }
+pre::-webkit-scrollbar-thumb {
+  background: #2a2a2e;
+  border-radius: 6px;
+  border: 2px solid #0c0c0e;
+}
+
+/* Delikatne animowane pojawienie się bloków kodu (spójne z bąbelkami) */
+pre {
+  animation: code-fade-in 0.24s ease-out;
+  will-change: opacity, transform;
+}
+@keyframes code-fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* (Opcjonalnie) prosta kolorystyka dla bibliotek highlightujących
+   — zadziała, jeśli używasz Highlight.js / Prism i dodają klas tokenów */
+pre .comment, .hljs-comment, .token.comment { color: #8d8d91; }
+pre .string,  .hljs-string,  .token.string  { color: #9be27d; }
+pre .number,  .hljs-number,  .token.number  { color: #b7a5ff; }
+pre .keyword, .hljs-keyword, .token.keyword { color: #7ecbff; font-weight: 600; }
+pre .function,.hljs-function,.token.function{ color: #ffd580; }
+pre .property,.attr-name,   .token.property { color: #ff9ac1; }
