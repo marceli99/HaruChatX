@@ -37,6 +37,8 @@ class Clients::ChatGpt
 
   private
 
+  attr_reader :model, :effort, :verbosity
+
   def delta_chunk?(chunk)
     chunk['type'] == DELTA_CHUNK_TYPE
   end
@@ -62,6 +64,4 @@ class Clients::ChatGpt
   def internal_client
     @internal_client ||= OpenAiClient.new
   end
-
-  attr_reader :model, :effort, :verbosity
 end
