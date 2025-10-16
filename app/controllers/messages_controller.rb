@@ -8,25 +8,26 @@ class MessagesController < ApplicationController
 
     @chat_mode = params[:chat_mode]
     @message_content = params[:message]
+    @response_identifier = @conversation.messages.last&.previous_response_identifier
 
     @user_message = @conversation.messages.create!(
       role: :user,
       content: @message_content,
-      model: @chat_mode
+      model: @chat_mode,
+      previous_response_identifier: @response_identifier
     )
 
     if @conversation.messages.one?
-      title_prompt = I18n.t('conversations.title_prompt', content: @message_content)
-      new_title = OpenAiClient.new.chat(title_prompt, 'gpt-5-nano')
-      @conversation.update!(title: new_title.strip)
+      # TODO: Move title creation to a job to avoid slowing down response
+      @conversation.update!(title: 'Temporary title')
     end
 
-    reply_text = OpenAiClient.new.chat(@message_content, @chat_mode)
-
+    reply_text = Clients::ChatGpt.new(model: @chat_mode).chat(input: @message_content)
     @assistant_message = @conversation.messages.create!(
       role: :assistant,
       content: reply_text,
-      model: @chat_mode
+      model: @chat_mode,
+      previous_response_identifier: reply_text[:response_id]
     )
 
     respond_to do |format|
@@ -36,6 +37,14 @@ class MessagesController < ApplicationController
   end
 
   private
+
+  def conversation
+    @conversation ||= if params[:conversation_id].present?
+                        Conversation.find(params[:conversation_id])
+                      else
+                        Conversation.new(system_prompt: Conversation::PRESETS[params[:preset]])
+                      end
+  end
 
   def message_params
     params.expect(message: [:content])
