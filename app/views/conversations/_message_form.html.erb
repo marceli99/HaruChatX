@@ -1,0 +1,15 @@
+<%= form_with url: messages_path, method: :post, html: { 'aria-label': t('conversations.form.aria_write_message') } do |f| %>
+  <%= hidden_field_tag :conversation_id, @conversation.id if @conversation %>
+
+  <select id="chat_mode_select" name="chat_mode" aria-label="<%= t('conversations.form.chat_mode') %>">
+    <option value="gpt-5" <%= 'selected' if @chat_mode == 'gpt-5' %>>GPT 5</option>
+    <option value="gpt-5-mini" <%= 'selected' if @chat_mode == 'gpt-5-mini' %>>GPT 5 Mini</option>
+    <option value="gpt-5-nano" <%= 'selected' if @chat_mode == 'gpt-5-nano' %>>GPT 5 Nano</option>
+  </select>
+
+  <%= f.text_field :message, value: @message, placeholder: t('conversations.form.message_placeholder'),
+                  'aria-label': t('conversations.form.aria_write_message'), autocomplete: 'off',
+                  enterkeyhint: 'send', required: true %>
+
+  <%= f.button t('conversations.form.send'), 'aria-label': t('conversations.form.send') %>
+<% end %>
