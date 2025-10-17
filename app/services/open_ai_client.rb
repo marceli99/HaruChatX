@@ -3,7 +3,8 @@
 require 'openai'
 
 class OpenAiClient
-  DEFAULT_SYSTEM = 'Jesteś miłym asystentem AI, odpowiadaj w języku pytania. Jeśli nie wiesz – nie zmyślaj. Krótko. Kod w <pre><code>...</code></pre>.'
+  DEFAULT_SYSTEM = 'Jesteś miłym asystentem AI, odpowiadaj w języku pytania. Jeśli nie wiesz, nie zmyślaj. ' \
+                   'Odpowiadaj zwięźle i na temat. Kod pisz w <pre><code>...</code></pre>'
 
   def initialize(client: OpenAI::Client.new)
     @client = client
