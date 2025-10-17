@@ -18,20 +18,28 @@ class Clients::ChatGpt
   Krótko. Kod w <pre><code>...</code></pre>.'
 
   DELTA_CHUNK_TYPE = 'response.output_text.delta'
+  RESPONSE_CREATED_TYPE = 'response.created'
 
-  def initialize(model: 'gpt-5', effort: Effort::MINIMAL, verbosity: Verbosity::LOW)
+  def initialize(model: 'gpt-5', effort: Effort::MEDIUM, verbosity: Verbosity::MEDIUM)
     @model = model
     @effort = effort
     @verbosity = verbosity
   end
 
-  def chat(input:)
-    parse_response(fetch_response(input))
+  def chat(input:, previous_response_id: nil)
+    response = fetch_response(input, previous_response_id)
+
+    {
+      text: parse_response(response),
+      response_id: response['id']
+    }
   end
 
-  def chat_stream(input:)
-    fetch_response(input) do |chunk, _event|
-      yield chunk['delta'] if delta_chunk(chunk)
+  def chat_stream(input:, previous_response_id: nil)
+    fetch_response(input, previous_response_id) do |chunk, _event|
+      parsed_chunk = parse_stream_chunk(chunk)
+
+      yield parsed_chunk if parsed_chunk
     end
   end
 
@@ -39,29 +47,36 @@ class Clients::ChatGpt
 
   attr_reader :model, :effort, :verbosity
 
-  def delta_chunk?(chunk)
-    chunk['type'] == DELTA_CHUNK_TYPE
+  def parse_stream_chunk(chunk)
+    case chunk['type']
+    when DELTA_CHUNK_TYPE
+      { type: :delta, content: chunk['delta'] }
+    when RESPONSE_CREATED_TYPE
+      { type: :response_created, response_id: chunk.dig('response', 'id') }
+    end
   end
 
   def parse_response(response)
-    JSON.parse(response.dig('output', 1, 'content', 0, 'text'))
+    response.dig('output', 1, 'content', 0, 'text')
   end
 
-  def fetch_response(input, &)
-    internal_client.responses.create(parameters: build_parameters(input, &))
+  def fetch_response(input, previous_response_id, &)
+    internal_client.responses.create(parameters: build_parameters(input, previous_response_id, &))
   end
 
-  def build_parameters(input, &block)
+  def build_parameters(input, previous_response_id, &block)
     {
       model: model,
       instructions: DEFAULT_SYSTEM_PROMPT,
       input: input,
       reasoning: { effort: effort },
-      text: { verbosity: verbosity }
+      text: { verbosity: verbosity },
+      store: true,
+      previous_response_id: previous_response_id
     }.tap { |params| params[:stream] = block if block }
   end
 
   def internal_client
-    @internal_client ||= OpenAiClient.new
+    @internal_client ||= OpenAI::Client.new
   end
 end

@@ -3,25 +3,18 @@
 class ConversationsController < ApplicationController
   def show
     @conversation = Conversation.find(params[:id])
-    @conversation.update!(system_prompt: Conversation::PRESETS[params[:preset]]) if params[:preset].present?
-    @messages = @conversation.messages.order(created_at: :asc)
-
-    return if params[:message].blank?
-
-    @chat_mode = params[:chat_mode]
+    @messages = @conversation&.messages&.order(created_at: :asc)
+    @chat_mode = last_used_chat_mode
     @message = params[:message]
-    @reply = OpenAiClient.new.chat(@message, @chat_mode)
 
     respond_to do |format|
       format.turbo_stream
-      format.html { redirect_to root_path }
+      format.html
     end
   end
 
-  def create
-    conversation = Current.user.conversations.new(title: t('conversations.new_title'))
-    conversation.save!
-    redirect_to conversation_path(conversation)
+  def new
+    @chat_mode = last_used_chat_mode
   end
 
   def destroy
@@ -32,6 +25,10 @@ class ConversationsController < ApplicationController
   end
 
   private
+
+  def last_used_chat_mode
+    Current.user.messages.last&.model
+  end
 
   def conversation_params
     params.expect(conversation: %i[title system_prompt])

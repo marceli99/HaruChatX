@@ -5,7 +5,8 @@ Rails.application.routes.draw do
   resources :passwords, param: :token
   get 'up' => 'rails/health#show', as: :rails_health_check
 
-  root 'application#index'
-  resources :conversations, only: %i[show create destroy]
+  root 'conversations#new'
+
+  resources :conversations, only: %i[new show destroy]
   resources :messages, only: %i[create]
 end

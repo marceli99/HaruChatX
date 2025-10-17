@@ -1,0 +1,11 @@
+<%= turbo_stream.update "messages" do %>
+  <% @messages.each do |message| %>
+    <article class="<%= message.role %>-message">
+      <%= raw message.content %>
+    </article>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.update "new_message" do %>
+  <%= render 'message_form' %>
+<% end %>

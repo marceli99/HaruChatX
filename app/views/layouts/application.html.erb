@@ -24,8 +24,8 @@
     <h1 class="sidebar__title"><%= t('app.name') %></h1>
     <div class="sidebar__actions">
       <%= button_to t('navigation.start_new_chat'),
-                    conversations_path,
-                    method: :post,
+                    new_conversation_path,
+                    method: :get,
                     class: "btn btn--primary sidebar__new" %>
     </div>
   </header>
@@ -33,7 +33,7 @@
   <nav class="sidebar__nav" aria-label="<%= t('navigation.chats_list', default: 'Chats list') %>">
     <ul class="chat-list">
       <% Current.user.conversations.order(created_at: :desc).each do |conversation| %>
-        <% active = (defined?(@conversation) && @conversation&.id == conversation.id) %>
+        <% active = @conversation&.id == conversation.id %>
         <li class="chat-item" id="<%= dom_id(conversation, :row) %>" data-conversation-id="<%= conversation.id %>">
           <%= link_to conversation_path(conversation),
                       class: "chat-link#{' is-active' if active}",
