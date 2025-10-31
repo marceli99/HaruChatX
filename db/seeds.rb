@@ -8,18 +8,13 @@ User.create!(
   password_confirmation: 'password'
 )
 
+RubyLLM.models.load_from_json!
+Model.save_to_database
+
 conversation = Conversation.create!(
   user: User.first,
   title: 'Welcome Conversation',
   model: Model.first
-)
-
-Message.create!(
-  conversation: conversation,
-  role: :system,
-  content: 'You are a helpful assistant.',
-  input_tokens: 0,
-  output_tokens: 0
 )
 
 Message.create!(
