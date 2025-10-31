@@ -2,12 +2,11 @@ import { Controller } from "@hotwired/stimulus"
 import consumer from "channels/consumer"
 
 export default class extends Controller {
-  static values = { messageId: Number, autoscroll: { type: Boolean, default: true } }
+  static values = { messageId: String, autoscroll: { type: Boolean, default: true } }
+
+  static loader = `<div class="loader"></div>`
 
   connect() {
-    this.textNode = document.createTextNode("")
-    this.element.appendChild(this.textNode)
-    this.pending = ""
     this.raf = null
 
     this.subscription = consumer.subscriptions.create(
@@ -15,29 +14,28 @@ export default class extends Controller {
       { received: (data) => this.received(data) }
     )
 
-    // Check if this element has data-scroll-container or find parent with it
     this.scrollContainer = this.element.hasAttribute("data-scroll-container") 
       ? this.element 
       : this.element.closest("[data-scroll-container]")
   }
 
   received(data) {
-    if (data.type === "delta") {
-      this.pending += data.text || ""
+    if(this.element.textContent == this.constructor.loader) this.element.textContent = ""
+
+    if (data.type === "chunk") {
+      this.element.textContent += data.content
       if (!this.raf) this.raf = requestAnimationFrame(() => this.flush())
     } else if (data.type === "done") {
       this.flush()
       this.teardown()
     } else if (data.type === "error") {
-      this.pending += `\n\n[error: ${data.message}]`
+      this.element.textContent += `\nError: ${data.message}`
       if (!this.raf) this.raf = requestAnimationFrame(() => this.flush())
       this.teardown()
     }
   }
 
   flush() {
-    this.textNode.nodeValue += this.pending
-    this.pending = ""
     this.raf = null
     this.stickToBottomIfNeeded()
   }

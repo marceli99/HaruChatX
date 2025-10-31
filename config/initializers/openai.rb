@@ -1,5 +1,0 @@
-# frozen_string_literal: true
-
-OpenAI.configure do |config|
-  config.access_token = Rails.application.credentials.dig(:openai, :access_key)
-end
