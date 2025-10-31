@@ -22,7 +22,7 @@ connect() {
   }
 
   playDong() {
-    const audio = new Audio("/dong.mp3");
-    audio.play();
+    // const audio = new Audio("/dong.mp3");
+    // audio.play();
   }
 }

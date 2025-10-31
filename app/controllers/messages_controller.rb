@@ -2,15 +2,15 @@
 
 class MessagesController < ApplicationController
   def create
-    return head :unprocessable_entity if params[:message].blank?
+    return redirect_back(fallback_location: root_path) if params[:message].blank?
 
     chat_mode = params[:chat_mode]
     message_content = params[:message]
-    existing_conversation = params[:conversation_id].present?
     response_identifier = conversation.messages.last&.previous_response_identifier
 
     @user_message = conversation.messages.create!(
       role: :user,
+      status: :completed,
       content: message_content,
       model: chat_mode,
       previous_response_identifier: response_identifier
@@ -21,25 +21,22 @@ class MessagesController < ApplicationController
       conversation.update!(title: 'Temporary title')
     end
 
-    response ||= Clients::ChatGpt.new(model: chat_mode).chat(
+    @assistant_message = conversation.messages.create!(
+      role: :assistant,
+      status: :generating,
+      content: '',
+      model: chat_mode
+    )
+
+    GenerateResponseJob.perform_later(
+      message_id: @assistant_message.id,
       input: message_content,
+      model: chat_mode,
       previous_response_id: response_identifier
     )
 
-    @assistant_message = conversation.messages.create!(
-      role: :assistant,
-      content: response[:text],
-      model: chat_mode,
-      previous_response_identifier: response[:response_id]
-    )
-
     respond_to do |format|
-      if existing_conversation
-        format.turbo_stream
-      else
-        format.html { redirect_to conversation_path(conversation) }
-        format.turbo_stream { redirect_to conversation_path(conversation) }
-      end
+      format.turbo_stream
     end
   end
 
