@@ -20,7 +20,8 @@ export default class extends Controller {
   }
 
   received(data) {
-    if(this.element.textContent == this.constructor.loader) this.element.textContent = ""
+    const loaderEl = this.element.querySelector('.loader');
+    if (loaderEl) loaderEl.remove();
 
     if (data.type === "chunk") {
       this.element.textContent += data.content
