@@ -11,7 +11,7 @@ gem 'kamal', '~> 2.7', require: false
 gem 'pg', '~> 1.6'
 gem 'propshaft', '~> 1.2'
 gem 'puma', '~> 7.0'
-gem 'rails', '~> 8.0.3'
+gem 'rails', '~> 8.1.1'
 gem 'ruby-openai', '~> 8.3'
 gem 'solid_cable', '~> 3.0'
 gem 'solid_cache', '~> 1.0', '>= 1.0.8'
