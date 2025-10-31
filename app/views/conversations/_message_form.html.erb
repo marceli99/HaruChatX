@@ -3,7 +3,7 @@
   <span></span>
   <select id="chat_mode_select" name="chat_mode" aria-label="<%= t('conversations.form.chat_mode') %>">
     <% Model.all.each do |model| %>
-      <option value="<%= model.model_id %>" <%= 'selected' if @chat_mode == model.name %>><%= model.name.titleize %></option>
+      <option value="<%= model.model_id %>" <%= 'selected' if @chat_mode == model.model_id %>><%= model.name.titleize %></option>
     <% end %>
   </select>
 
