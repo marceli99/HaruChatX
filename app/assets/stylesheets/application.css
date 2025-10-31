@@ -373,10 +373,9 @@ pre .function,.hljs-function,.token.function{ color: #ffd580; }
 pre .property,.attr-name,   .token.property { color: #ff9ac1; }
 
 /* HTML: <div class="loader"></div> */
-/* HTML: <div class="loader"></div> */
 .loader {
-  width: 50px;
-  padding: 8px;
+  width: 24px;
+  padding: 4px;
   aspect-ratio: 1;
   border-radius: 50%;
   background: #e6e6e6;
