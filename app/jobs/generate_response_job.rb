@@ -16,7 +16,7 @@ class GenerateResponseJob < ApplicationJob
 
   attr_reader :message_id, :input, :model, :previous_response_id
 
-  def run
+  def run # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     buffer = +''
 
     Clients::ChatGpt.new(model: @model).chat_stream(

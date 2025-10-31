@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class MessagesController < ApplicationController
-  def create
+  def create # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     return redirect_back(fallback_location: root_path) if params[:message].blank?
 
     chat_mode = params[:chat_mode]
