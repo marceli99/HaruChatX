@@ -3,17 +3,10 @@
     <%= @user_message.content %>
   </article>
 
-  <article class="assistant-message">
-    <%= @assistant_message.content %>
-    <script>
-      const dongFrame = document.querySelector('[data-controller="dong"]');
-      if (dongFrame && dongFrame.controller) {
-        dongFrame.controller.playDong();
-      } else if (dongFrame) {
-        // Fallback: Stimulus controller instance
-        const event = new CustomEvent('play-dong');
-        dongFrame.dispatchEvent(event);
-      }
-    </script>
+  <article id="<%= dom_id(@assistant_message) %>"
+           class="assistant-message"
+           data-controller="stream-message"
+           data-stream-message-message-id-value="<%= @assistant_message.id %>"
+           data-scroll-container>
   </article>
 <% end %>

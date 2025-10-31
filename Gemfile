@@ -3,6 +3,7 @@
 source 'https://rubygems.org'
 
 gem 'bootsnap', '>= 1.18.6', require: false
+gem 'good_job', '~> 4.12'
 gem 'i18n', '~> 1.14'
 gem 'importmap-rails', '~> 2.2'
 gem 'jbuilder', '~> 2.14'
@@ -14,7 +15,6 @@ gem 'rails', '~> 8.0.3'
 gem 'ruby-openai', '~> 8.3'
 gem 'solid_cable', '~> 3.0'
 gem 'solid_cache', '~> 1.0', '>= 1.0.8'
-gem 'solid_queue', '~> 1.2'
 gem 'stimulus-rails', '~> 1.3'
 gem 'thruster', '~> 0.1'
 gem 'turbo-rails', '~> 2.0'
