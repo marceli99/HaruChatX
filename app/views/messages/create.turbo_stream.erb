@@ -1,12 +1,13 @@
 <%= turbo_stream.append "messages" do %>
   <article class="user-message">
-    <%= @user_message.content %>
+    <%= @message_content %>
   </article>
 
-  <article id="<%= dom_id(@assistant_message) %>"
+  <article id="<%= @stream_id %>"
            class="assistant-message"
            data-controller="stream-message"
-           data-stream-message-message-id-value="<%= @assistant_message.id %>"
+           data-stream-message-message-id-value="<%= @stream_id %>"
            data-scroll-container>
+    <div class="loader"></div>
   </article>
 <% end %>

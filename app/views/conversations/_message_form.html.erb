@@ -2,9 +2,9 @@
   <%= hidden_field_tag :conversation_id, @conversation.id if @conversation %>
   <span></span>
   <select id="chat_mode_select" name="chat_mode" aria-label="<%= t('conversations.form.chat_mode') %>">
-    <option value="gpt-5" <%= 'selected' if @chat_mode == 'gpt-5' %>>GPT 5</option>
-    <option value="gpt-5-mini" <%= 'selected' if @chat_mode == 'gpt-5-mini' %>>GPT 5 Mini</option>
-    <option value="gpt-5-nano" <%= 'selected' if @chat_mode == 'gpt-5-nano' %>>GPT 5 Nano</option>
+    <% Model.all.each do |model| %>
+      <option value="<%= model.model_id %>" <%= 'selected' if @chat_mode == model.model_id %>><%= model.name.titleize %></option>
+    <% end %>
   </select>
 
   <%= f.text_field :message, value: @message, placeholder: t('conversations.form.message_placeholder'),

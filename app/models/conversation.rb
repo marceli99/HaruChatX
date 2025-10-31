@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 class Conversation < ApplicationRecord
+  acts_as_chat
+
   self.primary_key = :id
-  has_many :messages, dependent: :destroy
+
   belongs_to :user
 
   PRESETS = {

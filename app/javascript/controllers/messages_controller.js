@@ -4,7 +4,7 @@ export default class extends Controller {
     static targets = ["input", "form", "sendButton"]
 
     connect() {
-        this.sendButtonTarget.addEventListener("click", this.disableSendButton.bind(this));
+        this.formTarget.addEventListener("submit", this.disableSendButton.bind(this));
     }
 
     disableSendButton() {

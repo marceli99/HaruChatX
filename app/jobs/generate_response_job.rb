@@ -3,43 +3,46 @@
 class GenerateResponseJob < ApplicationJob
   queue_as :default
 
-  def perform(message_id:, input:, model:, previous_response_id: nil)
-    @message_id = message_id
+  DEFAULT_SYSTEM_PROMPT = 'Jesteś miłym asystentem AI, odpowiadaj w języku pytania. Jeśli nie wiesz – nie zmyślaj.
+  Krótko. Kod w <pre><code>...</code></pre>.'
+
+  def perform(conversation_id:, input:, model:, stream_id:)
+    @conversation_id = conversation_id
     @model = model
     @input = input
-    @previous_response_id = previous_response_id
+    @stream_id = stream_id
 
     run
   end
 
   private
 
-  attr_reader :message_id, :input, :model, :previous_response_id
+  attr_reader :conversation_id, :input, :model, :stream_id
 
-  def run # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
-    buffer = +''
-
-    Clients::ChatGpt.new(model: @model).chat_stream(
-      input: input,
-      previous_response_id: previous_response_id
-    ) do |chunk|
-      case chunk[:type]
-      when :delta
-        delta = chunk[:content]
-        buffer << delta
-        ActionCable.server.broadcast("message_#{message.id}", { type: 'delta', text: delta })
-      when :response_created
-        message.update!(previous_response_identifier: chunk[:response_id])
+  def run
+    conversation.with_model(model).with_instructions(DEFAULT_SYSTEM_PROMPT).ask(input) do |chunk|
+      Rails.logger.info("Streaming chunk: #{chunk.inspect}")
+      if chunk.content.present?
+        ActionCable.server.broadcast("message_#{stream_id}", { type: 'chunk', content: chunk.content })
       end
     end
-    message.update!(content: buffer, status: :completed)
   rescue StandardError => e
-    message.update!(content: buffer, status: :failed)
-    ActionCable.server.broadcast("message_#{message.id}", { type: 'delta', text: "\n\n[Stream error]" })
-    Rails.logger.error("GenerateResponseJob failed for Message ID #{message_id}: #{e.message}")
+    handle_error(e)
   end
 
-  def message
-    @message ||= Message.find(message_id)
+  def handle_error(error)
+    sleep 1 # Wait a second for the client channel to be ready
+    Rails.logger.error("Error generating response: #{error.message}")
+
+    if Rails.env.development?
+      ActionCable.server.broadcast("message_#{stream_id}", { type: 'error', message: error.message })
+    else
+      ActionCable.server.broadcast("message_#{stream_id}",
+                                   { type: 'error', message: 'An error occurred while generating the response.' })
+    end
+  end
+
+  def conversation
+    Conversation.find(conversation_id)
   end
 end

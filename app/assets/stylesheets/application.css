@@ -371,3 +371,21 @@ pre .number,  .hljs-number,  .token.number  { color: #b7a5ff; }
 pre .keyword, .hljs-keyword, .token.keyword { color: #7ecbff; font-weight: 600; }
 pre .function,.hljs-function,.token.function{ color: #ffd580; }
 pre .property,.attr-name,   .token.property { color: #ff9ac1; }
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 24px;
+  padding: 4px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #e6e6e6;
+  --_m: 
+    conic-gradient(#0000 10%,#000),
+    linear-gradient(#000 0 0) content-box;
+  -webkit-mask: var(--_m);
+          mask: var(--_m);
+  -webkit-mask-composite: source-out;
+          mask-composite: subtract;
+  animation: l3 1s infinite linear;
+}
+@keyframes l3 {to{transform: rotate(1turn)}}

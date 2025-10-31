@@ -1,6 +1,6 @@
 <main data-controller="messages">
   <section>
-    <turbo-frame id="messages" data-controller="dong">
+    <turbo-frame id="messages">
       <% @messages.each do |message| %>
         <article id="<%= dom_id(message) %>" class="<%= message.role %>-message">
           <%= raw message.content %>
